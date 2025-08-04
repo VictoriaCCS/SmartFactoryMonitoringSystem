@@ -1,0 +1,76 @@
+
+syntax = "proto3";
+
+option java_package = "com.mycompany.smartfactorymonitoringsystem";
+option java_outer_classname = "SmartFactoryProto";
+
+
+//SERVICES
+//Service1 : Server-Side streaming (1 request and multiple responses from server)
+service MachineMonitorService{
+    rpc StreamMetrics(MonitorRequest) returns (stream MetricUpdate);
+}
+
+//Service2: Unary rpc (1 request/1 response) 
+//Side-Client streaming (Multiple requests/1 response from server)
+service AlertService{
+    rpc GetAlerts(AlertRequest) returns (AlertResponse);
+    rpc SendDiagnostics(stream LogEntry) returns (LogSummary);
+}
+
+//Service3: Bidirectional Streaming (Multiple requests/ Multiple responses)
+service MaintenanceScheduleService{
+    rpc ScheduleMaintenance(stream MaintenanceRequest) returns (stream MaintenanceResponse);
+}
+
+
+//Service 1
+message MonitorRequest{
+  string machine = 1;
+  float temperature = 2;
+  float vibration = 3;
+  int64 time = 4;
+}
+message MetricUpdate{
+   string machine = 1; 
+   float temperature = 2;
+   float vibration = 3; 
+   int64 time = 4;
+}
+
+
+//Service 2
+message AlertRequest{
+   string alertType = 1;
+   string severityLevel = 2;
+}
+message AlertResponse{
+   string alertType = 1;
+   string severityLevel = 2; 
+}
+
+message LogEntry{
+   string diagnostic = 1;
+   string errors = 2;
+}
+message LogSummary{
+   string message = 1; 
+}
+
+//Service 3
+message MaintenanceRequest{
+    string machineID = 1;
+    int64  date = 2;
+    string description = 3;
+    string status = 4;
+    string technician = 5;
+}
+message MaintenanceResponse{
+    string machineID = 1;
+    int64  date = 2;
+    string description = 3;
+    string status = 4;
+    string technician = 5;
+}
+    
+     
