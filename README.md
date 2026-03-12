@@ -35,3 +35,7 @@ The system consists of three main services:
 - Maven  
 - jmDNS  
 
+## How to Run
+1. Clone the repo:  
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/SmartFactory.git
